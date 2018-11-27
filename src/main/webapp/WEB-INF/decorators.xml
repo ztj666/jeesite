@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/views">
+	
+	<!-- 默认装饰页面, 在需要装饰的页面增加<meta name="decorator" content="default"/> -->
+	
+	<!--管理后台 -->
+	<decorator name="blank" page="admin/layouts/blank.jsp" />
+	<decorator name="default" page="admin/layouts/default.jsp" />
+	<!--微信 -->
+	<decorator name="defaultWx" page="mobile/layouts/defaultWx.jsp" />
+	
+	<!--会员中心 -->
+	<decorator name="defaultMemberLogin" page="member/layouts/defaultMemberLogin.jsp" />
+	<decorator name="defaultMemberAll" page="member/layouts/defaultMemberAll.jsp" />
+	
+	<!--前台展示系统 -->
+	<decorator name="defaultFront" page="front/layouts/defaultFront.jsp" />
+	<decorator name="defaultShop" page="front/layouts/defaultShop.jsp" />
+	<!--前台展示系统,积分商城 -->
+	<decorator name="scoreStore" page="front/layouts/defaultScoreStore.jsp" />
+	
+	<!-- CMS基础主题装饰页面 , 在需要装饰的页面增加<meta name="decorator" content="cms_default_${site.theme}"/> -->
+	<decorator name="cms_default_basic" page="front/cms/themes/basic/layouts/default.jsp" />
+	<decorator name="cms_default_weixin" page="front/cms/themes/weixin/layouts/default.jsp" />
+	
+</decorators>

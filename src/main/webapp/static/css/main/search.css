@@ -1,0 +1,129 @@
+#mydiv {
+	text-align: left;
+	padding-left: 30px;
+	float: left;
+	margin-left: 5%;
+	border-radius: 15px;
+	background-color: white;
+	background-image: url(../../image/ic_search_grey.png);
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: 10px 8px;
+	width: 80%;
+	height: 30px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
+body{
+	background:#ffffff;
+}
+
+.butt {
+	float: right;
+	margin-top: 13px;
+	text-align: center;
+	font-size: 14px;
+	color: #FFFFFF;
+	line-height: 18px;
+	width: 15%;
+	height: 100%;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	margin: 0;
+	margin-bottom: 0px;
+	background: #DDDDDD;
+	position: relative;
+	border: none;
+}
+
+.div1 {
+	background: #F6F4F4;
+	text-align: left;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 20px;
+	color: #888888;
+	font-size: 14px;
+}
+
+.div2 {
+	width: 100%;
+	height: 80px;
+	background: white;
+}
+
+.div3 {
+	width: 100%;
+	height:90px;
+	background:#FFFFFF;
+	
+}
+
+.img {
+	width: 50px;
+	height: 50px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: 20px;
+	border-radius:50px;
+}
+
+.div-img {
+	width: 28%;
+	height: 40px;
+}
+
+.img-text {
+	margin-top: 20px;
+	width: 70%;
+	height: 45px;
+	font-size: 14px;
+	color: #333333;
+	line-height: 20px;
+}
+
+.name {
+	font-size: 14px;
+	color: #888888;
+	line-height: 20px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+
+.div3 p {
+	
+	padding-top: 10px;
+	background:#FFFFFF;
+	padding-left: 3%;
+	font-size: 16px;
+	color: #333333;
+	line-height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.div3 img{
+	margin-left:10px;
+}
+.btn {
+	width: 40px;
+	height: 20px;
+	background: #FFAC5B;
+	font-size: 12px;
+	padding: 2px 5px 2px 5px;
+	border-radius: 3px;
+	margin-right: 15%;
+	color: #ffffff;
+}
+.solid{
+	clear: both;
+	background:#DDDDDD;
+}

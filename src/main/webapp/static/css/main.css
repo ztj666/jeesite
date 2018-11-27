@@ -1,0 +1,331 @@
+ul {
+	font-size: 14px;
+	color: #8f8f94;
+}
+
+.mui-btn {
+	padding: 10px;
+}
+
+.my-div-account {
+	width: 100%;
+	align-content: center;
+	text-align: center;
+	padding-top: 40px;
+	height: 150px;
+	width: 100%;
+}
+
+.my-div-btn {
+	align-content: center;
+	text-align: center;
+	background: #133155;
+	width: 100%;
+	height: 60px;
+	border: 0px;
+	color: white;
+	padding: 20px;
+}
+
+.my-div-btn1 {
+	align-content: center;
+	text-align: center;
+	width: 100%;
+	height: 60px;
+	border: 0px;
+	color: white;
+	padding: 20px;
+}
+
+.my-img-ic {
+	float: left;
+	margin-left: 28px;
+}
+
+.my-btn-title {
+	float: left;
+	background: transparent;
+	color: white;
+	border: 0px;
+}
+
+.my-icon-bars:before {
+	content: url(../images/btn_menu.png);
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+	color: #FFFFFF;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+	color: #FFFFFF;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+	color: #FFFFFF;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+	color: #FFFFFF;
+}
+
+.my-select {
+	float: left;
+	width: 33.33%;
+	color: #888888;
+	background: white;
+	height: 44px;
+	border-radius: 4px;
+}
+
+.my-select:before {
+	content: url(../images/btn_down.png);
+}
+
+.my-time-show:before {
+	content: url(../images/ic_time.png);
+	position: relative;
+	top: 2px;
+	margin-right: 6px;
+}
+
+.my-address-show:before {
+	content: url(../images/ic_map.png);
+	position: relative;
+	top: 7px;
+	margin-right: 6px;
+}
+
+.my-address-show {
+	float: right;
+	width: 55%;
+	position: relative;
+	top: -9px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+
+.my-btn-price {
+	width: 80px;
+	height: 40px;
+	background: #F8F7F5;
+	color: red;
+	font-weight: bold;
+	border: 0px;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.my-btn-status {
+	width: 100px;
+	float: right;
+	border-radius: 100px;
+	background: orange;
+	border-color: orange;
+	padding: 10px 0px;
+	margin-top: 5px;
+	color: white;
+}
+
+.my-btn-status1 {
+	width: 100px;
+	float: right;
+	border-radius: 100px;
+	background: #458ED2;
+	border-color: #458ED2;
+	padding: 10px 0px;
+	margin-top: 5px;
+	color: white;
+}
+
+#my-div-release {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 100;
+	display: none;
+	pointer-events: auto;
+}
+
+#my-btn-close {
+	width: 30px;
+	height: 30px;
+	border: 0px;
+	margin: 5px;
+	background: url(../images/btn_close.png);
+}
+
+#shangke {
+	position: absolute;
+	bottom: 62%;
+	right: 55%;
+}
+
+#queue {
+	position: absolute;
+	bottom: 62%;
+	left: 55%;
+}
+
+#qusong {
+	position: absolute;
+	top: 42%;
+	right: 55%;
+}
+
+#sendBy {
+	position: absolute;
+	top: 42%;
+	left: 55%;
+}
+
+#other {
+	position: absolute;
+	top: 72%;
+	right: 55%;
+}
+
+.wh100 {
+	width: 100px;
+	height: 100px;
+}
+
+p {
+	font-weight: bold;
+	font-size: 20px;
+	color: white;
+	margin: 10px;
+}
+
+
+/*************************下拉刷新start*****************/
+
+.mui-bar~.mui-content .mui-fullscreen {
+	top: 44px;
+	height: auto;
+}
+
+.mui-pull-top-tips {
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	margin-left: -25px;
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+	z-index: 1;
+}
+
+.mui-bar~.mui-pull-top-tips {
+	top: 24px;
+}
+
+.mui-pull-top-wrapper {
+	width: 42px;
+	height: 42px;
+	display: block;
+	text-align: center;
+	background-color: #efeff4;
+	border: 1px solid #ddd;
+	border-radius: 25px;
+	background-clip: padding-box;
+	box-shadow: 0 4px 10px #bbb;
+	overflow: hidden;
+}
+
+.mui-pull-top-tips.mui-transitioning {
+	-webkit-transition-duration: 200ms;
+	transition-duration: 200ms;
+}
+
+.mui-pull-top-tips .mui-pull-loading {
+	/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+	margin: 0;
+}
+
+.mui-pull-top-wrapper .mui-icon,
+.mui-pull-top-wrapper .mui-spinner {
+	margin-top: 7px;
+}
+
+.mui-pull-top-wrapper .mui-icon.mui-reverse {
+	/*-webkit-transform: rotate(180deg) translateZ(0);*/
+}
+
+.mui-pull-bottom-tips {
+	text-align: center;
+	background-color: #efeff4;
+	font-size: 15px;
+	line-height: 40px;
+	color: #777;
+}
+
+.mui-pull-top-canvas {
+	overflow: hidden;
+	background-color: #fafafa;
+	border-radius: 40px;
+	box-shadow: 0 4px 10px #bbb;
+	width: 40px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.mui-pull-top-canvas canvas {
+	width: 40px;
+}
+
+.mui-slider-indicator.mui-segmented-control {
+	background-color: #efeff4;
+}
+
+
+/*************************下拉刷新end*****************/
+
+.mui-table-view-cell:after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 15px;
+	height: 0px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc;
+}
+
+.mui-table-view-cell {
+	position: relative;
+	overflow: hidden;
+	margin: 11px 10px;
+	-webkit-touch-callout: none;
+	background: white;
+}
+
+.mui-table-view {
+	position: relative;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: 0;
+	list-style: none;
+	background-color: transparent;
+}
+
+#showCityPicker {
+	color: grey;
+	border: 0px;
+	padding: 12.5px;
+	font-size: 14px;
+	text-align: left;
+	margin-left: 8px;
+	background: transparent;
+}

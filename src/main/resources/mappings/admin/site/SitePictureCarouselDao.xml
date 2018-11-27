@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhwl.admin.site.dao.SitePictureCarouselDao">
+    
+    <!-- 输出字段列 -->
+	<sql id="sitePictureCarouselColumns">
+		a.id AS "id",
+		a.path AS "path",
+		a.taget AS "taget",
+		a.title AS "title",
+		a.sort AS "sort",
+		a.type AS "type",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.bak1 AS "bak1",
+		a.bak2 AS "bak2",
+		a.bak3 AS "bak3",
+		a.bak4 AS "bak4",
+		a.bak5 AS "bak5"
+	</sql>
+	
+	<!-- 输出字段关联表 -->
+	<sql id="sitePictureCarouselJoins">
+	</sql>
+
+	<!-- 拼接where条件 -->
+	<sql id="Where_Clause">
+		<where>
+			
+			<if test="title != null and title != ''">
+				AND a.title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+	</sql>
+      
+    <!--根据主键查询记录-->
+	<select id="selectById" resultType="SitePictureCarousel">
+		SELECT 
+			<include refid="sitePictureCarouselColumns"/>
+		FROM site_picture_carousel a
+		<include refid="sitePictureCarouselJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<!--根据条件查询记录集-->
+	<select id="selectByWhere" resultType="SitePictureCarousel">
+		SELECT 
+		<if test="distinct">
+      	distinct
+    	</if>		
+			<include refid="sitePictureCarouselColumns"/>
+		FROM site_picture_carousel a
+		<include refid="sitePictureCarouselJoins"/>
+		<where>
+			
+			<if test="title != null and title != ''">
+				AND a.title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC,a.type ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--查询所有记录集，无条件-->
+	<select id="selectAll" resultType="SitePictureCarousel">
+		SELECT 
+			<include refid="sitePictureCarouselColumns"/>
+		FROM site_picture_carousel a
+		<include refid="sitePictureCarouselJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--插入-->
+	<insert id="insert" >
+		INSERT INTO site_picture_carousel(
+			id,
+			path,
+			taget,
+			title,
+			sort,
+			type,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			bak1,
+			bak2,
+			bak3,
+			bak4,
+			bak5
+		) VALUES (
+			#{id},
+			#{path},
+			#{taget},
+			#{title},
+			#{sort},
+			#{type},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{bak1},
+			#{bak2},
+			#{bak3},
+			#{bak4},
+			#{bak5}
+		)
+	</insert>
+	
+	<!--插入,只把非空的值插入到对应的字段-->
+	<insert id="insertSelective" >
+		INSERT INTO site_picture_carousel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="path != null">path,</if>
+			<if test="taget != null">taget,</if>
+			<if test="title != null">title,</if>
+			<if test="sort != null">sort,</if>
+			<if test="type != null">type,</if>
+			<if test="status != null">status,</if>
+			<if test="createBy.id != null">create_by,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateBy.id != null">update_by,</if>
+			<if test="updateDate != null">update_date,</if>
+			<if test="remarks != null">remarks,</if>
+			<if test="bak1 != null">bak1,</if>
+			<if test="bak2 != null">bak2,</if>
+			<if test="bak3 != null">bak3,</if>
+			<if test="bak4 != null">bak4,</if>
+			<if test="bak5 != null">bak5,</if>
+
+		</trim>
+		 VALUES 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="path != null">#{path},</if>
+			<if test="taget != null">#{taget},</if>
+			<if test="title != null">#{title},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="type != null">#{type},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createBy.id != null">#{createBy.id},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateBy.id != null">#{updateBy.id},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+			<if test="remarks != null">#{remarks},</if>
+			<if test="bak1 != null">#{bak1},</if>
+			<if test="bak2 != null">#{bak2},</if>
+			<if test="bak3 != null">#{bak3},</if>
+			<if test="bak4 != null">#{bak4},</if>
+			<if test="bak5 != null">#{bak5},</if>
+
+		</trim>
+	</insert>	
+	
+	<!-- 根据主键更新记录-->
+	<update id="updateById">
+		UPDATE site_picture_carousel SET 	
+			path = #{path},
+			taget = #{taget},
+			title = #{title},
+			sort = #{sort},
+			type = #{type},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bak1 = #{bak1},
+			bak2 = #{bak2},
+			bak3 = #{bak3},
+			bak4 = #{bak4},
+			bak5 = #{bak5}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录-->
+	<update id="updateByWhere">
+		UPDATE site_picture_carousel SET 	
+			path = #{path},
+			taget = #{taget},
+			title = #{title},
+			sort = #{sort},
+			type = #{type},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bak1 = #{bak1},
+			bak2 = #{bak2},
+			bak3 = #{bak3},
+			bak4 = #{bak4},
+			bak5 = #{bak5}
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByIdSelective">
+		UPDATE site_picture_carousel 
+		<set>		
+			<if test="path != null">path = #{path},</if>
+			<if test="taget != null">taget = #{taget},</if>
+			<if test="title != null">title = #{title},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="bak1 != null">bak1 = #{bak1},</if>
+			<if test="bak2 != null">bak2 = #{bak2},</if>
+			<if test="bak3 != null">bak3 = #{bak3},</if>
+			<if test="bak4 != null">bak4 = #{bak4},</if>
+			<if test="bak5 != null">bak5 = #{bak5},</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByWhereSelective">
+		UPDATE site_picture_carousel 
+		<set>		
+			<if test="path != null">path = #{path},</if>
+			<if test="taget != null">taget = #{taget},</if>
+			<if test="title != null">title = #{title},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="bak1 != null">bak1 = #{bak1},</if>
+			<if test="bak2 != null">bak2 = #{bak2},</if>
+			<if test="bak3 != null">bak3 = #{bak3},</if>
+			<if test="bak4 != null">bak4 = #{bak4},</if>
+			<if test="bak5 != null">bak5 = #{bak5},</if>
+
+		</set>
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键删除记录 -->
+	<update id="deleteById">
+		DELETE FROM site_picture_carousel
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件删除记录 -->
+	<update id="deleteByWhere">
+		DELETE FROM site_picture_carousel
+		<include refid="Where_Clause" />
+	</update>	
+	
+	<!-- 根据条件查询记录总数 -->
+	<select id="countByWhere" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM site_picture_carousel
+		<include refid="Where_Clause" />
+	</select>	
+	<!-- 查找积分商城主页所需的轮播图片 -->
+	<select id="findScoreStorePic" resultType="SitePictureCarousel">
+	   select 
+		   t.id,
+		   t.path,
+		   t.taget,
+		   t.title 
+	   from site_picture_carousel t 
+	   where 
+		   1=1 and 
+		   t.type='2' and 
+		   t.status=1 
+ 	</select>
+</mapper>

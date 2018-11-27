@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhwl.admin.site.dao.SiteFriendlyLinkDao">
+
+	<!-- 输出字段列 -->
+	<sql id="siteFriendlyLinkColumns">
+		a.id AS "id",
+		a.type AS "type",
+		a.img AS "img",
+		a.name AS "name",
+		a.url AS "url",
+		a.sort AS "sort",
+		a.create_by AS "createBy.id",
+		a.create_date
+		AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.bak1 AS "bak1",
+		a.bak2 AS "bak2",
+		a.bak3 AS
+		"bak3",
+		a.bak4 AS "bak4",
+		a.bak5 AS "bak5"
+	</sql>
+
+	<!-- 输出字段关联表 -->
+	<sql id="siteFriendlyLinkJoins">
+	</sql>
+
+	<!-- 拼接where条件 -->
+	<sql id="Where_Clause">
+		<where>
+			<if test="type != null and type != ''">
+				AND a.type =#{type}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE
+				<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+	</sql>
+
+	<!--根据主键查询记录 -->
+	<select id="selectById" resultType="SiteFriendlyLink">
+		SELECT
+		<include refid="siteFriendlyLinkColumns" />
+		FROM site_friendly_link a
+		<include refid="siteFriendlyLinkJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<!-- 根据多个id查询出一个列表 -->
+	<select id="selectByIdIn" resultType="SiteFriendlyLink">
+		SELECT * FROM site_friendly_link where id in
+		<foreach close=")" collection="list" item="item" open="(" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<!--根据条件查询记录集 -->
+	<select id="selectByWhere" resultType="SiteFriendlyLink">
+		SELECT
+		<if test="distinct">DISTINCT</if>
+		<include refid="siteFriendlyLinkColumns" />
+		FROM site_friendly_link a
+		<include refid="siteFriendlyLinkJoins" />
+		<include refid="Where_Clause" />
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--查询所有记录集，无条件 -->
+	<select id="selectAll" resultType="SiteFriendlyLink">
+		SELECT
+		<if test="distinct">DISTINCT</if>
+		<include refid="siteFriendlyLinkColumns" />
+		FROM site_friendly_link a
+		<include refid="siteFriendlyLinkJoins" />
+		<where>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--插入 如要返回自增长的主键请加入keyProperty="id" useGeneratedKeys="true" -->
+	<insert id="insert">
+		INSERT INTO site_friendly_link(
+		id,
+		type,
+		img,
+		name,
+		url,
+		sort,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		bak1,
+		bak2,
+		bak3,
+		bak4,
+		bak5
+		) VALUES (
+		#{id},
+		#{type},
+		#{img},
+		#{name},
+		#{url},
+		#{sort},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{bak1},
+		#{bak2},
+		#{bak3},
+		#{bak4},
+		#{bak5}
+		)
+	</insert>
+
+	<!--插入,只把非空的值插入到对应的字段。如要返回自增长的主键请加入keyProperty="id" useGeneratedKeys="true" -->
+	<insert id="insertSelective">
+		INSERT INTO site_friendly_link
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="type != null">type,</if>
+			<if test="img != null">img,</if>
+			<if test="name != null">name,</if>
+			<if test="url != null">url,</if>
+			<if test="sort != null">sort,</if>
+			<if test="createBy.id != null">create_by,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateBy.id != null">update_by,</if>
+			<if test="updateDate != null">update_date,</if>
+			<if test="remarks != null">remarks,</if>
+			<if test="bak1 != null">bak1,</if>
+			<if test="bak2 != null">bak2,</if>
+			<if test="bak3 != null">bak3,</if>
+			<if test="bak4 != null">bak4,</if>
+			<if test="bak5 != null">bak5,</if>
+
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="type != null">#{type},</if>
+			<if test="img != null">#{img},</if>
+			<if test="name != null">#{name},</if>
+			<if test="url != null">#{url},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="createBy.id != null">#{createBy.id},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateBy.id != null">#{updateBy.id},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+			<if test="remarks != null">#{remarks},</if>
+			<if test="bak1 != null">#{bak1},</if>
+			<if test="bak2 != null">#{bak2},</if>
+			<if test="bak3 != null">#{bak3},</if>
+			<if test="bak4 != null">#{bak4},</if>
+			<if test="bak5 != null">#{bak5},</if>
+
+		</trim>
+	</insert>
+
+	<!-- 根据主键更新记录 -->
+	<update id="updateById">
+		UPDATE site_friendly_link SET
+		type = #{type},
+		img = #{img},
+		name = #{name},
+		url = #{url},
+		sort = #{sort},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 根据条件更新记录 -->
+	<update id="updateByWhere">
+		UPDATE site_friendly_link SET
+		type = #{type},
+		img = #{img},
+		name = #{name},
+		url = #{url},
+		sort = #{sort},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		<include refid="Where_Clause" />
+	</update>
+
+	<!-- 根据主键更新记录,只把非空的值更到对应的字段 -->
+	<update id="updateByIdSelective">
+		UPDATE site_friendly_link
+		<set>
+			<if test="type != null">type = #{type},</if>
+			<if test="img != null">img = #{img},</if>
+			<if test="name != null">name = #{name},</if>
+			<if test="url != null">url = #{url},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 根据条件更新记录,只把非空的值更到对应的字段 -->
+	<update id="updateByWhereSelective">
+		UPDATE site_friendly_link
+		<set>
+			<if test="type != null">type = #{type},</if>
+			<if test="img != null">img = #{img},</if>
+			<if test="name != null">name = #{name},</if>
+			<if test="url != null">url = #{url},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+
+		</set>
+		<include refid="Where_Clause" />
+	</update>
+
+	<!-- 根据主键删除记录 -->
+	<update id="deleteById">
+		DELETE FROM site_friendly_link
+		WHERE id = #{id}
+	</update>
+
+	<!-- 根据条件删除记录 -->
+	<update id="deleteByWhere">
+		DELETE FROM site_friendly_link
+		<include refid="Where_Clause" />
+	</update>
+
+	<!-- 根据条件查询记录总数 -->
+	<select id="countByWhere" resultType="java.lang.Integer">
+		SELECT
+		<if test="distinct">DISTINCT</if>
+		COUNT(*) FROM site_friendly_link
+		<include refid="Where_Clause" />
+	</select>
+
+</mapper>

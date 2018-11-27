@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhwl.admin.sys.dao.SysMessageDao">
+    
+    <!-- 输出字段列 -->
+	<sql id="sysMessageColumns">
+		a.id AS "id",
+		a.user_id AS "user.id",
+		a.type AS "type",
+		a.content AS "content",
+		a.subject AS "subject",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.bak1 AS "bak1",
+		a.bak2 AS "bak2",
+		a.bak3 AS "bak3",
+		a.bak4 AS "bak4",
+		a.bak5 AS "bak5",
+		u2.name AS "user.name"
+	</sql>
+	
+	<!-- 输出字段关联表 -->
+	<sql id="sysMessageJoins">
+		LEFT JOIN sys_user u2 ON u2.id = a.user_id
+	</sql>
+
+	<!-- 拼接where条件 -->
+	<sql id="Where_Clause">
+		<where>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.user_id = #{user.id}
+			</if>
+		</where>
+	</sql>
+      
+    <!--根据主键查询记录-->
+	<select id="selectById" resultType="SysMessage">
+		SELECT 
+			<include refid="sysMessageColumns"/>
+		FROM sys_message a
+		<include refid="sysMessageJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<!-- 根据多个id查询出一个列表 -->
+	<select id="selectByIdIn" resultType="SysMessage">
+		SELECT * FROM sys_message <where>
+			<choose>
+				<when test="list != null and list.size >0">
+					a.id in
+					<foreach close=")" collection="list" item="item" open="(" separator=",">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					1=2
+				</otherwise>
+			</choose>
+		</where>
+	</select>	
+	<!--根据条件查询记录集-->
+	<select id="selectByWhere" resultType="SysMessage">
+		SELECT <if test="distinct">DISTINCT</if>
+			<include refid="sysMessageColumns"/>
+		FROM sys_message a
+		<include refid="sysMessageJoins"/>
+		<where>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.user_id = #{user.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--查询所有记录集，无条件-->
+	<select id="selectAll" resultType="SysMessage">
+		SELECT <if test="distinct">DISTINCT</if>
+			<include refid="sysMessageColumns"/>
+		FROM sys_message a
+		<include refid="sysMessageJoins"/>
+		<where>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--插入  如要返回自增长的主键请加入keyProperty="id" useGeneratedKeys="true"-->
+	<insert id="insert" >
+		INSERT INTO sys_message(
+			id,
+			user_id,
+			type,
+			content,
+			subject,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			bak1,
+			bak2,
+			bak3,
+			bak4,
+			bak5
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{type},
+			#{content},
+			#{subject},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{bak1},
+			#{bak2},
+			#{bak3},
+			#{bak4},
+			#{bak5}
+		)
+	</insert>
+	
+	<!--插入,只把非空的值插入到对应的字段。如要返回自增长的主键请加入keyProperty="id" useGeneratedKeys="true"-->
+	<insert id="insertSelective" >
+		INSERT INTO sys_message
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="user.id != null">user_id,</if>
+			<if test="type != null">type,</if>
+			<if test="content != null">content,</if>
+			<if test="subject != null">subject,</if>
+			<if test="createBy != null and createBy.id != null">create_by,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateBy != null and updateBy.id != null">update_by,</if>
+			<if test="updateDate != null">update_date,</if>
+			<if test="remarks != null">remarks,</if>
+			<if test="bak1 != null">bak1,</if>
+			<if test="bak2 != null">bak2,</if>
+			<if test="bak3 != null">bak3,</if>
+			<if test="bak4 != null">bak4,</if>
+			<if test="bak5 != null">bak5,</if>
+
+		</trim>
+		 VALUES 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="user.id != null">#{user.id},</if>
+			<if test="type != null">#{type},</if>
+			<if test="content != null">#{content},</if>
+			<if test="subject != null">#{subject},</if>
+			<if test="createBy != null and createBy.id != null">#{createBy.id},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateBy != null and updateBy.id != null">#{updateBy.id},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+			<if test="remarks != null">#{remarks},</if>
+			<if test="bak1 != null">#{bak1},</if>
+			<if test="bak2 != null">#{bak2},</if>
+			<if test="bak3 != null">#{bak3},</if>
+			<if test="bak4 != null">#{bak4},</if>
+			<if test="bak5 != null">#{bak5},</if>
+
+		</trim>
+	</insert>	
+	
+	<!-- 根据主键更新记录-->
+	<update id="updateById">
+		UPDATE sys_message SET 	
+			user_id = #{user.id},
+			type = #{type},
+			content = #{content},
+			subject = #{subject},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bak1 = #{bak1},
+			bak2 = #{bak2},
+			bak3 = #{bak3},
+			bak4 = #{bak4},
+			bak5 = #{bak5}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录-->
+	<update id="updateByWhere">
+		UPDATE sys_message SET 	
+			user_id = #{user.id},
+			type = #{type},
+			content = #{content},
+			subject = #{subject},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bak1 = #{bak1},
+			bak2 = #{bak2},
+			bak3 = #{bak3},
+			bak4 = #{bak4},
+			bak5 = #{bak5}
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByIdSelective">
+		UPDATE sys_message 
+		<set>		
+			<if test="user.id != null">user_id = #{user.id},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="subject != null">subject = #{subject},</if>
+			<if test="updateBy != null and updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="bak1 != null">bak1 = #{bak1},</if>
+			<if test="bak2 != null">bak2 = #{bak2},</if>
+			<if test="bak3 != null">bak3 = #{bak3},</if>
+			<if test="bak4 != null">bak4 = #{bak4},</if>
+			<if test="bak5 != null">bak5 = #{bak5},</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByWhereSelective">
+		UPDATE sys_message 
+		<set>		
+			<if test="user.id != null">user_id = #{user.id},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="subject != null">subject = #{subject},</if>
+			<if test="updateBy != null and updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="bak1 != null">bak1 = #{bak1},</if>
+			<if test="bak2 != null">bak2 = #{bak2},</if>
+			<if test="bak3 != null">bak3 = #{bak3},</if>
+			<if test="bak4 != null">bak4 = #{bak4},</if>
+			<if test="bak5 != null">bak5 = #{bak5},</if>
+
+		</set>
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键删除记录 -->
+	<update id="deleteById">
+		DELETE FROM sys_message
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件删除记录 -->
+	<update id="deleteByWhere">
+		DELETE FROM sys_message
+		<include refid="Where_Clause" />
+	</update>	
+	
+	<!-- 根据条件查询记录总数 -->
+	<select id="countByWhere" resultType="java.lang.Integer">
+		SELECT <if test="distinct">DISTINCT</if> COUNT(*) FROM sys_message
+		<include refid="Where_Clause" />
+	</select>	
+	
+</mapper>

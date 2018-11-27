@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhwl.admin.cms.dao.CustomFormDao">
+    
+    <!-- 输出字段列 -->
+	<sql id="customFormColumns">
+		a.id AS "id",
+		a.form_name AS "formName",
+		a.sort AS "sort",
+		a.form_xml AS "formXml",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		u5.name AS "createBy.name",
+		u7.name AS "updateBy.name"
+	</sql>
+	
+	<!-- 输出字段关联表 -->
+	<sql id="customFormJoins">
+		LEFT JOIN sys_user u5 ON u5.id = a.create_by
+		LEFT JOIN sys_user u7 ON u7.id = a.update_by
+	</sql>
+
+	<!-- 拼接where条件 -->
+	<sql id="Where_Clause">
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="formName != null and formName != ''">
+				AND a.form_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{formName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{formName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{formName},'%')</if>
+			</if>
+		</where>
+	</sql>
+      
+    <!--根据主键查询记录-->
+	<select id="selectById" resultType="CustomForm">
+		SELECT 
+			<include refid="customFormColumns"/>
+		FROM cms_customform a
+		<include refid="customFormJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<!--根据条件查询记录集-->
+	<select id="selectByWhere" resultType="CustomForm">
+		SELECT 
+		<if test="distinct">
+      	distinct
+    	</if>		
+			<include refid="customFormColumns"/>
+		FROM cms_customform a
+		<include refid="customFormJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="formName != null and formName != ''">
+				AND a.form_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{formName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{formName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{formName},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--查询所有记录集，无条件-->
+	<select id="selectAll" resultType="CustomForm">
+		SELECT 
+			<include refid="customFormColumns"/>
+		FROM cms_customform a
+		<include refid="customFormJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--插入-->
+	<insert id="insert" >
+		INSERT INTO cms_customform(
+			id,
+			form_name,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks
+		) VALUES (
+			#{id},
+			#{formName},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks}
+		)
+	</insert>
+	
+	<!--插入,只把非空的值插入到对应的字段-->
+	<insert id="insertSelective" >
+		INSERT INTO cms_customform
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="formName != null">form_name,</if>
+			<if test="sort != null">sort,</if>
+			<if test="createBy.id != null">create_by,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateBy.id != null">update_by,</if>
+			<if test="updateDate != null">update_date,</if>
+			<if test="remarks != null">remarks,</if>
+
+		</trim>
+		 VALUES 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="formName != null">#{formName},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="createBy.id != null">#{createBy.id},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateBy.id != null">#{updateBy.id},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+			<if test="remarks != null">#{remarks},</if>
+
+		</trim>
+	</insert>	
+	
+	<!-- 根据主键更新记录-->
+	<update id="updateById">
+		UPDATE cms_customform SET 	
+			form_name = #{formName},
+			sort = #{sort},
+			create_by = #{createBy.id},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录-->
+	<update id="updateByWhere">
+		UPDATE cms_customform SET 	
+			form_name = #{formName},
+			sort = #{sort},
+			create_by = #{createBy.id},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByIdSelective">
+		UPDATE cms_customform 
+		<set>		
+			<if test="formName != null">form_name = #{formName},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="createBy.id != null">create_by = #{createBy.id},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByWhereSelective">
+		UPDATE cms_customform 
+		<set>		
+			<if test="formName != null">form_name = #{formName},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="createBy.id != null">create_by = #{createBy.id},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+
+		</set>
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键删除记录 -->
+	<update id="deleteById">
+		DELETE FROM cms_customform
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件删除记录 -->
+	<update id="deleteByWhere">
+		DELETE FROM cms_customform
+		<include refid="Where_Clause" />
+	</update>	
+	
+	<!-- 根据条件查询记录总数 -->
+	<select id="countByWhere" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM cms_customform
+		<include refid="Where_Clause" />
+	</select>	
+	
+</mapper>

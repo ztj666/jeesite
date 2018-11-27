@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>service</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/service/${subModuleName}</filePath>
+	<fileName>${ClassName}Service.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2015-2050 谦亨科技 All rights reserved.
+ */
+package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.qhwl.common.persistence.Page;
+import com.qhwl.common.service.CrudService2;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.dao<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Dao;
+
+/**
+ * ${functionName}Service
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Service
+@Transactional(readOnly = true)
+public class ${ClassName}Service extends CrudService2<${ClassName}Dao, ${ClassName}> {
+
+	public ${ClassName} selectById(String id) {
+		return super.selectById(id);
+	}
+	
+	public List<${ClassName}> selectByWhere(${ClassName} ${className}) {
+		return super.selectByWhere(${className});
+	}
+	
+	public Page<${ClassName}> selectByWhere(Page<${ClassName}> page, ${ClassName} ${className}) {
+		return super.selectByWhere(page, ${className});
+	}
+	
+	@Transactional(readOnly = false)
+	public int saveOrUpdate(${ClassName} ${className}) {
+		return super.saveOrUpdate(${className});
+	}
+	
+	@Transactional(readOnly = false)
+	public int deleteById(String id) {
+		return super.deleteById(id);
+	}
+	
+}]]>
+	</content>
+</template>

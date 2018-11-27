@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qhwl.admin.site.dao.SiteAdDao">
+    
+    <!-- 输出字段列 -->
+	<sql id="siteAdColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.bak1 AS "bak1",
+		a.bak2 AS "bak2",
+		a.bak3 AS "bak3",
+		a.bak4 AS "bak4",
+		a.bak5 AS "bak5"
+	</sql>
+	
+	<!-- 输出字段关联表 -->
+	<sql id="siteAdJoins">
+	</sql>
+
+	<!-- 拼接where条件 -->
+	<sql id="Where_Clause">
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+	</sql>
+	
+	<select id="get" resultType="SiteAd">
+		SELECT 
+			a.id AS "id",
+			a.name AS "name",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.remarks AS "remarks",
+			a.bak1 AS "bak1",
+			a.bak2 AS "bak2",
+			a.bak3 AS "bak3",
+			a.bak4 AS "bak4",
+			a.bak5 AS "bak5",
+			sad.content AS content
+		FROM site_ad a
+		join site_ad_content sad on a.id= sad.adid
+		WHERE sad.status='1' and a.id = #{id}
+	</select>
+      
+    <!--根据主键查询记录-->
+	<select id="selectById" resultType="SiteAd">
+		SELECT 
+			<include refid="siteAdColumns"/>
+		FROM site_ad a
+		<include refid="siteAdJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<!-- 根据多个id查询出一个列表 -->
+	<select id="selectByIdIn" resultType="SiteAd">
+		SELECT * FROM site_ad where id in
+		<foreach close=")" collection="list" item="item" open="(" separator=",">
+          #{item}
+        </foreach>
+	</select>	
+	
+	<!--根据条件查询记录集-->
+	<select id="selectByWhere" resultType="SiteAd">
+		SELECT <if test="distinct">DISTINCT</if>
+			<include refid="siteAdColumns"/>
+		FROM site_ad a
+		<include refid="siteAdJoins"/>
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--查询所有记录集，无条件-->
+	<select id="selectAll" resultType="SiteAd">
+		SELECT <if test="distinct">DISTINCT</if>
+			<include refid="siteAdColumns"/>
+		FROM site_ad a
+		<include refid="siteAdJoins"/>
+		<where>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--插入  如要返回自增长的主键请加入keyProperty="id" useGeneratedKeys="true"-->
+	<insert id="insert" >
+		INSERT INTO site_ad(
+			id,
+			name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			bak1,
+			bak2,
+			bak3,
+			bak4,
+			bak5
+		) VALUES (
+			#{id},
+			#{name},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{bak1},
+			#{bak2},
+			#{bak3},
+			#{bak4},
+			#{bak5}
+		)
+	</insert>
+	
+	<!--插入,只把非空的值插入到对应的字段。如要返回自增长的主键请加入keyProperty="id" useGeneratedKeys="true"-->
+	<insert id="insertSelective" >
+		INSERT INTO site_ad
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="name != null">name,</if>
+			<if test="createBy.id != null">create_by,</if>
+			<if test="createDate != null">create_date,</if>
+			<if test="updateBy.id != null">update_by,</if>
+			<if test="updateDate != null">update_date,</if>
+			<if test="remarks != null">remarks,</if>
+			<if test="bak1 != null">bak1,</if>
+			<if test="bak2 != null">bak2,</if>
+			<if test="bak3 != null">bak3,</if>
+			<if test="bak4 != null">bak4,</if>
+			<if test="bak5 != null">bak5,</if>
+
+		</trim>
+		 VALUES 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="name != null">#{name},</if>
+			<if test="createBy.id != null">#{createBy.id},</if>
+			<if test="createDate != null">#{createDate},</if>
+			<if test="updateBy.id != null">#{updateBy.id},</if>
+			<if test="updateDate != null">#{updateDate},</if>
+			<if test="remarks != null">#{remarks},</if>
+			<if test="bak1 != null">#{bak1},</if>
+			<if test="bak2 != null">#{bak2},</if>
+			<if test="bak3 != null">#{bak3},</if>
+			<if test="bak4 != null">#{bak4},</if>
+			<if test="bak5 != null">#{bak5},</if>
+
+		</trim>
+	</insert>	
+	
+	<!-- 根据主键更新记录-->
+	<update id="updateById">
+		UPDATE site_ad SET 	
+			name = #{name},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bak1 = #{bak1},
+			bak2 = #{bak2},
+			bak3 = #{bak3},
+			bak4 = #{bak4},
+			bak5 = #{bak5}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录-->
+	<update id="updateByWhere">
+		UPDATE site_ad SET 	
+			name = #{name},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bak1 = #{bak1},
+			bak2 = #{bak2},
+			bak3 = #{bak3},
+			bak4 = #{bak4},
+			bak5 = #{bak5}
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByIdSelective">
+		UPDATE site_ad 
+		<set>		
+			<if test="name != null">name = #{name},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="bak1 != null">bak1 = #{bak1},</if>
+			<if test="bak2 != null">bak2 = #{bak2},</if>
+			<if test="bak3 != null">bak3 = #{bak3},</if>
+			<if test="bak4 != null">bak4 = #{bak4},</if>
+			<if test="bak5 != null">bak5 = #{bak5},</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件更新记录,只把非空的值更到对应的字段-->
+	<update id="updateByWhereSelective">
+		UPDATE site_ad 
+		<set>		
+			<if test="name != null">name = #{name},</if>
+			<if test="updateBy.id != null">update_by = #{updateBy.id},</if>
+			<if test="updateDate != null">update_date = #{updateDate},</if>
+			<if test="remarks != null">remarks = #{remarks},</if>
+			<if test="bak1 != null">bak1 = #{bak1},</if>
+			<if test="bak2 != null">bak2 = #{bak2},</if>
+			<if test="bak3 != null">bak3 = #{bak3},</if>
+			<if test="bak4 != null">bak4 = #{bak4},</if>
+			<if test="bak5 != null">bak5 = #{bak5},</if>
+
+		</set>
+		<include refid="Where_Clause" />
+	</update>
+	
+	<!-- 根据主键删除记录 -->
+	<update id="deleteById">
+		DELETE FROM site_ad
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据条件删除记录 -->
+	<update id="deleteByWhere">
+		DELETE FROM site_ad
+		<include refid="Where_Clause" />
+	</update>	
+	
+	<!-- 根据条件查询记录总数 -->
+	<select id="countByWhere" resultType="java.lang.Integer">
+		SELECT <if test="distinct">DISTINCT</if> COUNT(*) FROM site_ad
+		<include refid="Where_Clause" />
+	</select>	
+	
+</mapper>

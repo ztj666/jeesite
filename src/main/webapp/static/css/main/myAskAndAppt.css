@@ -1,0 +1,108 @@
+#test {
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+	border-radius: 4px;
+	position: absolute;
+	border: 1px solid #ffffff;
+}
+
+#test a {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	line-height: 18px;
+}
+
+.mui-segmented-control .mui-control-item {
+	display: table-cell;
+	overflow: hidden;
+	-webkit-transition: background-color .1s linear;
+	transition: background-color .1s linear;
+	text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	border-left: 1px solid white;
+}
+
+.mui-segmented-control .mui-control-item.mui-active {
+	color: #4AACC5;
+	background-color: #fff;
+}
+
+.mui-segmented-control .mui-control-item {
+	color: #fff;
+	background-color: #4AACC5;
+}
+
+.div2 {
+	width: 100%;
+	padding: 10px;
+	background: #fff;
+	height:90px;
+	border-bottom: 1px solid #DDDDDD;
+}
+
+.div2 p {
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	font-size: 16px;
+	color: #333333;
+	height: 38px;
+	line-height: 20px;
+}
+
+.div2-1 {
+	width: 100%;
+	float: left;
+	height: 10px;
+}
+
+.lebel {
+	white-space: nowrap;
+	padding-left: 1%;
+	float: left;
+	width: 60%;
+	font-size: 14px;
+	color: #888888;
+}
+
+.lebel img{
+	margin-right:5px;
+}
+
+.lebel2 {
+	white-space: nowrap;
+	width: 39%;
+	text-align:right;
+	float: right;
+	font-size: 12px;
+	color: #888888;
+}
+
+.btn {
+	margin-left:5px;
+	width: 40px;
+	height: 20px;
+	background:#FF5D08;
+	font-size: 12px;
+	padding: 2px 5px 2px 5px;
+	border-radius: 3px;
+	color: #ffffff;
+}
+
+.div3 {
+	margin-top: 40px;
+	text-align: center;
+	width: 100%;
+	background: #F6F4F4;
+	height: 80px;
+}
+
+
+
+
+

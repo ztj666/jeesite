@@ -1,0 +1,40 @@
+.ui-page-login,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.mui-content {
+	height: 100%;
+}
+
+.mui-color-green {
+	background: #3BA285;
+	border: 0px;
+}
+
+.mui-fontcolor-white {
+	color: white;
+	font-weight: bold;
+}
+
+.mui-fontcolor-green {
+	color: #3BA285;
+	font-weight: bold;
+}
+
+.my-icon-back:before {
+	content: url(../images/btn_back.png);
+}
+
+.my-icon-share:before {
+	content: url(../images/ic_share.png);
+}
+.my-line-nowrap{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
